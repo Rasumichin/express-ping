@@ -3,14 +3,16 @@ const uuid = require('uuid/v1');
 const app = express();
 const port = 3000;
 
-function pingResourceGet(request, response) {
-    reply = {
+function getPingReply() {
+    return {
         "uuid": uuid(),
         "reply": "Hi, Duke!"
     };
-    
+}
+
+function pingResourceGet(request, response) {
     console.log("'/ping' requested");
-    response.send(reply);
+    response.send(getPingReply());
 }
 
 app.get('/ping', pingResourceGet);
