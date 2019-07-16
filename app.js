@@ -3,8 +3,12 @@ const app = express();
 const port = 3000;
 
 function pingResourceGet(request, response) {
+    reply = {
+        "reply": "Hi, Duke!"
+    };
+    
     console.log("'/ping' requested");
-    response.send('Hi, Duke!');
+    response.send(reply);
 }
 app.get('/ping', pingResourceGet);
 
