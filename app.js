@@ -12,7 +12,7 @@ function getPingReply() {
 
 function pingResourceGet(request, response) {
     console.log("'/ping' requested");
-    response.send(getPingReply());
+    response.json(getPingReply());
 }
 
 app.get('/ping', pingResourceGet);
