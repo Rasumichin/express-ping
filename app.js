@@ -11,24 +11,26 @@ function getPingReply(meQueryParameter) {
     };
 }
 
-function getNotFoundReply() {
-    return {
-        "problem": "Resource not found!"
-    };
-}
-
 function pingResourceGet(request, response) {
     console.log("'/ping' requested");
     response.json(getPingReply(request.query.me));
 }
 
-function resourceNotFound(request, response, next) {
-    response.status(404).json(getNotFoundReply());
+function ResourceNotFound() {
+    var that = this;
+    this.reply = function () {
+        return {
+            "problem": "Resource not found!"
+        };
+    };
+    this.perform = function (request, response, next) {
+        response.status(404).json(that.reply());
+    };
 }
 
 function defineRoutes() {
     app.get('/ping', pingResourceGet);
-    app.use(resourceNotFound);
+    app.use(new ResourceNotFound().perform);
 }
 
 defineRoutes();
