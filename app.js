@@ -26,7 +26,10 @@ function resourceNotFound(request, response, next) {
     response.status(404).json(getNotFoundReply());
 }
 
-app.get('/ping', pingResourceGet);
-app.use(resourceNotFound);
+function defineRoutes() {
+    app.get('/ping', pingResourceGet);
+    app.use(resourceNotFound);
+}
 
+defineRoutes();
 app.listen(port, () => console.log(`Express REST app listening on port ${port}!`));
