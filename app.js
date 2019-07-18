@@ -3,6 +3,14 @@ const uuid = require('uuid/v1');
 const app = express();
 const port = 3000;
 
+defineRoutes();
+app.listen(port, () => console.log(`Express REST app listening on port ${port}!`));
+
+function defineRoutes() {
+    app.get('/ping', new PingResource().get);
+    app.use(new ResourceNotFound().perform);
+}
+
 function PingResource() {
     var that = this;
     this.get = function (request, response) {
@@ -29,11 +37,3 @@ function ResourceNotFound() {
         response.status(404).json(that.reply());
     };
 }
-
-function defineRoutes() {
-    app.get('/ping', new PingResource().get);
-    app.use(new ResourceNotFound().perform);
-}
-
-defineRoutes();
-app.listen(port, () => console.log(`Express REST app listening on port ${port}!`));
