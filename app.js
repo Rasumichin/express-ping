@@ -11,11 +11,22 @@ function getPingReply(meQueryParameter) {
     };
 }
 
+function getNotFoundReply() {
+    return {
+        "problem": "Resource not found!"
+    };
+}
+
 function pingResourceGet(request, response) {
     console.log("'/ping' requested");
     response.json(getPingReply(request.query.me));
 }
 
+function resourceNotFound(request, response, next) {
+    response.status(404).json(getNotFoundReply());
+}
+
 app.get('/ping', pingResourceGet);
+app.use(resourceNotFound);
 
 app.listen(port, () => console.log(`Express REST app listening on port ${port}!`));
