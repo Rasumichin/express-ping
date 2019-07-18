@@ -28,12 +28,12 @@ function PingResource() {
 
 function ResourceNotFound() {
     var that = this;
-    this.reply = function () {
+    this.reply = function (method, path) {
         return {
-            "problem": "Resource not found!"
+            "problem": `${method} to resource '${path}' not found!`
         };
     };
     this.perform = function (request, response, next) {
-        response.status(404).json(that.reply());
+        response.status(404).json(that.reply(request.method, request.path));
     };
 }
