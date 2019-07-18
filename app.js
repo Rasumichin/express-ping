@@ -3,17 +3,19 @@ const uuid = require('uuid/v1');
 const app = express();
 const port = 3000;
 
-function getPingReply(meQueryParameter) {
-    let reply = (meQueryParameter === undefined) ? "Hi, Duke!" : ("Hi, " + meQueryParameter + "!");
-    return {
-        "uuid": uuid(),
-        "reply": reply
+function PingResource() {
+    var that = this;
+    this.get = function (request, response) {
+        console.log("GET '/ping'");
+        response.json(that.pingReply(request.query.me));
     };
-}
-
-function pingResourceGet(request, response) {
-    console.log("'/ping' requested");
-    response.json(getPingReply(request.query.me));
+    this.pingReply = function (meQueryParameter) {
+        let reply = (meQueryParameter === undefined) ? "Hi, Duke!" : ("Hi, " + meQueryParameter + "!");
+        return {
+            "uuid": uuid(),
+            "reply": reply
+        };
+    }
 }
 
 function ResourceNotFound() {
@@ -29,7 +31,7 @@ function ResourceNotFound() {
 }
 
 function defineRoutes() {
-    app.get('/ping', pingResourceGet);
+    app.get('/ping', new PingResource().get);
     app.use(new ResourceNotFound().perform);
 }
 
